@@ -1,4 +1,4 @@
-
+import Logo from "@/assets/icons/Logo";
 
 export default function Footer() {
   return (
@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div>
             <div className="flex items-center gap-3">
-          
+              <Logo />
             </div>
 
             <p className="mt-4 max-w-xs text-muted-foreground">
