@@ -8,36 +8,48 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import config from "@/config";
 import { cn } from "@/lib/utils";
 import { useLoginMutation } from "@/redux/features/auth/auth.api";
 import type { FieldValues, SubmitHandler } from "react-hook-form";
-import { useForm } from "react-hook-form";
+import  {  useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
-import { toast } from "sonner";
-
+import {  toast } from "react-hot-toast";
 export function LoginForm({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   const navigate = useNavigate();
-  const form = useForm();
+  const form = useForm({
+    //! For development only
+    defaultValues: {
+      email: "mirhussainmurtaza@gmail.com",
+      password: "12345678",
+    },
+  });
   const [login] = useLoginMutation();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await login(data).unwrap();
-      console.log(res);
+
+      if (res.success) {
+        toast.success("Logged in successfully");
+        navigate("/");
+      }
     } catch (err) {
       console.error(err);
 
-      if (err.status === 401) {
+      if (err.data.message === "Password does not match") {
+        toast.error("Invalid credentials");
+      }
+
+      if (err.data.message === "User is not verified") {
         toast.error("Your account is not verified");
         navigate("/verify", { state: data.email });
       }
     }
   };
 
-
-  
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <div className="flex flex-col items-center gap-2 text-center">
@@ -98,7 +110,9 @@ export function LoginForm({
           </span>
         </div>
 
+        {/*//* http://localhost:5000/api/v1/auth/google */}
         <Button
+          onClick={() => window.open(`${config.baseUrl}/auth/google`)}
           type="button"
           variant="outline"
           className="w-full cursor-pointer"
