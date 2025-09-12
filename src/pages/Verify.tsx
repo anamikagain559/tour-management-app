@@ -44,7 +44,7 @@ export default function Verify() {
   const location = useLocation();
   const navigate = useNavigate();
   const [email] = useState(location.state);
-console.log(location.state);
+
   const [confirmed, setConfirmed] = useState(false);
   const [sendOtp] = useSendOtpMutation();
   const [verifyOtp] = useVerifyOtpMutation();
