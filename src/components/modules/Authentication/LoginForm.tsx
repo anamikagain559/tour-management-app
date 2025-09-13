@@ -28,6 +28,7 @@ export function LoginForm({
       password: "12345678",
     },
   });
+  // console.log(form.formState.errors);
   const [login] = useLoginMutation();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
