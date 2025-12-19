@@ -56,6 +56,7 @@ export default function Verify() {
       pin: "",
     },
   });
+  
 const handleSendOtp = async () => {
   const toastId = toast.loading("Sending OTP"); // show loading toast
 
